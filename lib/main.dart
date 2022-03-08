@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:untitled37/detaySayfa.dart';
 
 void main() {
   runApp(const MyApp());
@@ -37,34 +38,94 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text("Main Page"),
       ),
-      body: ListView.builder(
+      body: SizedBox(
+        height: 100,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: ulkeler.length,
+            itemBuilder: (context,index)
+            {
 
-        itemCount: ulkeler.length,
-          itemBuilder: (context,index)
-          {
-
-          return Card(
-
-            child: Padding(
-              padding: EdgeInsets.all(8.0),
+            return GestureDetector(
+              onTap: ()
+              {
+                //Navigator.push(context, MaterialPageRoute(builder: (context) => detaySayfa(ulke:ulkeler[index])));
+                print('${ulkeler[index]}');
+                  },
               child: SizedBox(
-                height: 50,
-                child: Row(
+                width: 120,
+                child: Card(
+
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      height: 50,
+                      child: Row(
 
 
-                  children: [
-                    Text(ulkeler[index]),
-                  ],
+                        children: [
+                          Text(ulkeler[index]),
+                          Spacer(),
+                          PopupMenuButton(
+                            child: Icon(Icons.more_vert),
+                            itemBuilder: (context) =>
+                            [
+                              PopupMenuItem(
+                                value: 1,
+                                child: Text("Sil",style: TextStyle(color: Colors.red),),
+                              ),
+                              PopupMenuItem(
+                                value: 2,
+                                child: Text("Güncelle",style: TextStyle(color: Colors.indigo),),
+                              ),
+                              PopupMenuItem(
+                                value: 3,
+                                child: Text("Git",style: TextStyle(color: Colors.indigo),),
+                              ),
+                            ],
+                            onCanceled: ()
+                            {
+                              print('Seçim iptal edildi.');
+                            },
+                            onSelected: (menuItemValue)
+                            {
+                              switch(menuItemValue)
+                              {
+                                case 1:
+                                  print('Sil seçildi.');
+                                  setState(() {
+                                    ulkeler.removeAt(index);
+                                  });
+
+                                  break;
+                                case 2:
+                                  print('Güncelle seçildi.');
+                                  break;
+
+                                case 3:
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => detaySayfa(ulke:ulkeler[index])));
+                                  //print('Güncelle seçildi.');
+                                  break;
+
+                              }
+                            },
+
+
+                          ),
+                        ],
+
+                      ),
+                    ),
+                  ),
+
 
                 ),
               ),
-            ),
+            );
+            }
 
 
-          );
-          }
-
-
+        ),
       )
 
 
